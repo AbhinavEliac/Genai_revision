@@ -1,0 +1,33 @@
+# Core LLM Frameworks
+langchain
+langchain-core
+langchain-community
+langgraph
+
+# Providers
+langchain-openai
+langchain-google-genai
+langchain-google-vertexai
+langchain-groq
+langchain-mistralai
+langchain_huggingface
+
+# Embeddings/Vector-DB
+faiss-cpu
+tiktoken
+
+# Env and Utilities
+python-dotenv
+pydantic
+requests
+transformers
+torch
+torchvision
+torchaudio 
+sentencepiece 
+tiktoken
+sentence-transformers
+
+# API/UI
+fastapi
+uvicorn
