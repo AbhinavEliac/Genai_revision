@@ -19,6 +19,7 @@ tiktoken
 # Env and Utilities
 python-dotenv
 pydantic
+typing
 requests
 transformers
 torch
@@ -31,3 +32,7 @@ sentence-transformers
 # API/UI
 fastapi
 uvicorn
+
+# Document Processing & PDF
+reportlab
+pymupdf

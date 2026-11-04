@@ -1,9 +1,28 @@
 from dotenv import load_dotenv
+
 from langchain.chat_models import init_chat_model
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+from langchain_core.output_parsers import PydanticOutputParser
+
+from pydantic import BaseModel
+from typing import List, Optional
 
 load_dotenv()
+
+class Movie(BaseModel):
+
+    title: str
+    rating: Optional[float]
+    director: Optional[str]
+    release_year: Optional[int]
+    genre: List[str]
+    theme: List[str]
+    setting: List[str]
+    lead_actors: List[str]
+    summary: str
+
+parser = PydanticOutputParser(pydantic_object = Movie)
 
 model = init_chat_model("gpt-4o-mini", temperature = 0)
 
@@ -27,15 +46,7 @@ prompt = ChatPromptTemplate.from_messages(
 
             Output Format:
 
-            Title:- 
-            Director:- 
-            Release Date:- 
-            Genre:- 
-            Plot:- 
-            Theme:- 
-            Setting/location:- 
-            Lead Actors:- 
-            Plot Summary:- 
+            {format_instructions}
 
             """
         ),
@@ -53,7 +64,8 @@ prompt = ChatPromptTemplate.from_messages(
 para = input("Give me the Movie Paragraph: ")
 
 final_prompt = prompt.invoke(
-    {"paragraph" : para}
+    {"paragraph" : para,
+    "format_instructions" : parser.get_format_instructions()}
 )
 
 response = model.invoke(final_prompt)

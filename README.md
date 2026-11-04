@@ -3,7 +3,7 @@
 # 🧠 GenAI Revision Repository
 
 <p align="center">
-  <strong>Comprehensive revision repository for Generative AI, Large Language Models (LLMs), LangChain, Vector Embeddings, and Real-world NLP Projects.</strong>
+  <strong>Comprehensive revision repository for Generative AI, Large Language Models (LLMs), LangChain, Vector Embeddings, RAG, and Real-world NLP Projects.</strong>
 </p>
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
@@ -35,7 +35,7 @@ This repository serves as a focused, hands-on revision guide for core **Generati
 - **Chat Models & LLM Orchestration**: Unified model initialization using LangChain `init_chat_model`, multi-turn conversational agents with stateful message history, and persona-driven system prompts.
 - **Remote & Local Inference**: Interfacing with OpenAI cloud models, Hugging Face Serverless Endpoints (`deepseek-ai/DeepSeek-V4.1-Flash-1017`), and local Hugging Face pipelines (`TinyLlama/TinyLlama-1.1B-Chat-v1.0`).
 - **Vector Embeddings**: Generating dense vector representations using both proprietary APIs (OpenAI `text-embedding-3-small`) and open-source embedding models (`BAAI/bge-small-en-v1.5`).
-- **Applied GenAI Projects**: Practical end-to-end applications demonstrating advanced prompt engineering, deterministic extraction, and structured output parsing.
+- **Applied GenAI Projects**: Practical end-to-end applications demonstrating advanced prompt engineering, Pydantic structured output parsing, and Retrieval-Augmented Generation (RAG) foundations.
 
 ---
 
@@ -45,24 +45,28 @@ This repository serves as a focused, hands-on revision guide for core **Generati
 Genai_revision/
 │
 ├── chatmodels/
-│   ├── chat.py                 # Basic LangChain chat model invocation with GPT-4o-mini
-│   ├── chatbot.py              # Interactive "ChatBot 360" multi-persona agent with session memory
-│   ├── huggingface.py          # HuggingFace Serverless Endpoint integration (DeepSeek)
-│   └── localmodel.py           # On-device local inference via Hugging Face Pipeline (TinyLlama)
+│   ├── chat.py                         # Basic LangChain chat model invocation with GPT-4o-mini
+│   ├── chatbot.py                      # Interactive "ChatBot 360" multi-persona agent with session memory
+│   ├── huggingface.py                  # HuggingFace Serverless Endpoint integration (DeepSeek)
+│   └── localmodel.py                   # On-device local inference via Hugging Face Pipeline (TinyLlama)
 │
 ├── embeddingmodels/
-│   ├── embeddings.py           # OpenAI dense vector embeddings (text-embedding-3-small)
-│   └── hf_embeddings.py        # Open-source Hugging Face embeddings (bge-small-en-v1.5)
+│   ├── embeddings.py                   # OpenAI dense vector embeddings (text-embedding-3-small)
+│   └── hf_embeddings.py                # Open-source Hugging Face embeddings (bge-small-en-v1.5)
 │
 ├── Projects/
-│   └── movie_data_cleaner.py   # Structured Movie Information Extractor using ChatPromptTemplate
+│   ├── movie_data_cleaner.py           # Structured Movie Extractor using ChatPromptTemplate & PydanticOutputParser
+│   └── RAG_project/
+│       ├── main.py                     # Foundational RAG script querying concepts via GPT-4o-mini
+│       ├── covariance_vs_correlation.txt # In-depth statistical guide with formulas, proofs, and examples
+│       └── deep_learning_and_transformers.pdf # Publication-quality 5-page guide to DL, Attention, and Transformers
 │
-├── .env.example                # Environment variables template for API keys
-├── .gitignore                  # Git ignore rules for environments, secrets, and caches
-├── .gitkeep                   # Placeholder keeping repository directory structure intact
-├── LICENSE                     # MIT License
-├── README.md                   # Project documentation and guide
-└── requirements.txt            # Full list of dependencies (LangChain, PyTorch, Transformers, etc.)
+├── .env.example                        # Environment variables template for API keys
+├── .gitignore                          # Git ignore rules for environments, secrets, and caches
+├── .gitkeep                           # Placeholder keeping repository directory structure intact
+├── LICENSE                             # MIT License
+├── README.md                           # Project documentation and guide
+└── requirements.txt                    # Full list of dependencies (LangChain, PyTorch, Transformers, ReportLab, etc.)
 ```
 
 ---
@@ -95,10 +99,20 @@ Genai_revision/
 
 - **`movie_data_cleaner.py` (Structured Movie Information Extractor)**:
   - Uses `ChatPromptTemplate.from_messages` to construct strict system instructions and dynamic prompt variables (`{paragraph}`).
-  - Employs zero-temperature (`temperature=0`) inference with `gpt-4o-mini` for deterministic, hallucination-free output.
-  - Automatically parses messy, unstructured movie summaries into a clean, standardized format:
-    - Title, Director, Release Date, Genre, Plot, Theme, Setting/Location, Lead Actors, and Plot Summary.
-    - Handles missing data gracefully with `Null` indicators without inventing facts.
+  - Integrates **`PydanticOutputParser`** with a typed `Movie` schema (Title, Rating, Director, Release Year, Genre, Theme, Setting, Lead Actors, Summary).
+  - Employs zero-temperature (`temperature=0`) inference with `gpt-4o-mini` for deterministic, hallucination-free output conforming directly to JSON / Pydantic validation.
+
+- **`RAG_project/` (Retrieval-Augmented Generation Knowledge Base)**:
+  - **`main.py`**: Entry script for testing RAG definitions and baseline generation.
+  - **`covariance_vs_correlation.txt`**: Exhaustive reference text covering population vs. sample covariance, Pearson correlation derivation, Cauchy-Schwarz inequality proof for $[-1, +1]$ bounds, geometric interpretations, covariance and correlation matrices, PCA relationships, Spearman/Kendall rank variants, and step-by-step manual calculations.
+  - **`deep_learning_and_transformers.pdf`**: Formatted 5-page PDF document covering:
+    1. Foundations of Deep Learning & Perceptrons
+    2. Recurrent Bottlenecks ($O(N)$ sequential delay, vanishing gradients)
+    3. The Transformer Revolution (*Vaswani et al., 2017*)
+    4. Mathematical Attention Mechanics ($Q, K, V$, scaling factor $\frac{1}{\sqrt{d_k}}$, Multi-Head Attention, Positional Encoding / RoPE)
+    5. Taxonomy: Encoder-Only vs. Decoder-Only vs. Encoder-Decoder
+    6. Modern Innovations: FlashAttention, GQA/MQA, KV-Caching, and Mixture of Experts (MoE)
+    7. Relevance to RAG pipelines (Bi-encoders, vector databases, Cross-encoder re-ranking).
 
 ---
 
@@ -185,10 +199,16 @@ python embeddingmodels/embeddings.py
 python embeddingmodels/hf_embeddings.py
 ```
 
-### 🎬 Movie Data Cleaner & Information Extractor
+### 🎬 Movie Data Cleaner (Structured Pydantic Extraction)
 
 ```bash
 python Projects/movie_data_cleaner.py
+```
+
+### 📚 RAG Project
+
+```bash
+python Projects/RAG_project/main.py
 ```
 
 ---
