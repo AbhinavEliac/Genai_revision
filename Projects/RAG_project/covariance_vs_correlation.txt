@@ -111,7 +111,7 @@ statistics, their movement exhibits a POSITIVE relationship (a direct co-movemen
 
 Now imagine two people walking on opposite sides of a busy street in Tokyo, 
 completely unaware of each other's existence. When Person A stops to tie their 
-shoe, Person B keeps walking. When Person B turns into a café, Person A crosses 
+shoe, Person B keeps walking. When Person B turns into a cafe, Person A crosses 
 the street. Their movements have no coupling whatsoever. In statistics, this 
 represents ZERO relationship (they are uncorrelated).
 
@@ -163,8 +163,8 @@ In plain English, covariance answers one simple question:
 If the answer is a consistent "yes," then covariance is positive.
 If the answer is "no, when X is above its average, Y tends to be below its average," 
 then covariance is negative.
-If there is no consistent pattern—sometimes Y is high when X is high, and just as 
-often Y is low when X is high—then covariance hovers near zero.
+If there is no consistent pattern--sometimes Y is high when X is high, and just as 
+often Y is low when X is high--then covariance hovers near zero.
 
 Covariance provides an unmistakable directional compass. It tells you whether 
 two variables are moving in harmony or in opposition. 
@@ -295,7 +295,7 @@ immaculate, dimensionless numbers.
 
 This brilliant metric is called the Pearson Product-Moment Correlation Coefficient, 
 almost universally represented by the lowercase letter 'r' for sample data, or 
-the Greek letter 'rho' (ρ) for an entire population.
+the Greek letter 'rho' (rho) for an entire population.
 
 4.2 The Core Formula (The 10% Math)
 The mathematical definition of Pearson's correlation coefficient is:
@@ -635,7 +635,7 @@ If a naive government regulator looked at this data, they might attempt to preve
 drownings by banning the sale of ice cream at beachside boardwalks.
 
 The regulator failed to see the Confounder: SUMMER WEATHER (Outdoor Ambient Temperature).
-When summer arrives and the temperature hits 95°F (35°C):
+When summer arrives and the temperature hits 95 degreesF (35 degreesC):
 1. More people buy cold ice cream to cool down.
 2. Simultaneously, vastly more people go swimming in lakes and oceans.
 Because millions of additional people enter the water, the raw number of accidental 
@@ -680,7 +680,7 @@ The formula computes the sum, gets zero, and declares:
 
 If an analyst simply glanced at the correlation number without plotting the data, 
 they would confidently report: "Stress has no effect on performance." 
-In reality, stress has a massive, life-altering effect on performance—it is just 
+In reality, stress has a massive, life-altering effect on performance--it is just 
 not a straight line!
 
 --------------------------------------------------------------------------------
@@ -750,8 +750,8 @@ aggregated correlation metrics!
 ================================================================================
 8. BEYOND STRAIGHT LINES: ALTERNATIVE WAYS TO MEASURE RELATIONSHIPS
 ================================================================================
-When your data violates the assumptions of Pearson's correlation—when it contains 
-extreme outliers, skewed distributions, or non-linear curves—modern data scientists 
+When your data violates the assumptions of Pearson's correlation--when it contains 
+extreme outliers, skewed distributions, or non-linear curves--modern data scientists 
 turn to alternative metrics.
 
 --------------------------------------------------------------------------------
@@ -764,7 +764,7 @@ Consider the relationship between a software engineer's Years of Experience and
 their Technical Capability.
 - Moving from 1 year to 3 years of experience produces a massive jump in competence.
 - Moving from 15 years to 17 years produces a much smaller incremental gain.
-The relationship is not a straight line—it flattens out like a logarithmic curve. 
+The relationship is not a straight line--it flattens out like a logarithmic curve. 
 However, it is strictly MONOTONIC: someone with 10 years of experience is almost 
 always more capable than someone with 2 years.
 

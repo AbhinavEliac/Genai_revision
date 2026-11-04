@@ -58,8 +58,10 @@ Genai_revision/
 │   ├── movie_data_cleaner.py           # Structured Movie Extractor using ChatPromptTemplate & PydanticOutputParser
 │   └── RAG_project/
 │       ├── main.py                     # Foundational RAG script querying concepts via GPT-4o-mini
-│       ├── covariance_vs_correlation.txt # In-depth statistical guide with formulas, proofs, and examples
-│       └── deep_learning_and_transformers.pdf # Publication-quality 5-page guide to DL, Attention, and Transformers
+│       ├── covariance_vs_correlation.txt # In-depth statistical guide (90% descriptive text, 10% math)
+│       ├── deep_learning_and_transformers.pdf # Publication-quality 5-page guide to DL, Attention, and Transformers
+│       └── document_loaders/
+│           └── test.py                 # Document loader test script using TextLoader & PyPDFLoader
 │
 ├── .env.example                        # Environment variables template for API keys
 ├── .gitignore                          # Git ignore rules for environments, secrets, and caches
