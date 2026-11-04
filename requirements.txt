@@ -28,6 +28,8 @@ torchaudio
 sentencepiece 
 tiktoken
 sentence-transformers
+pypdf
+bs4
 
 # API/UI
 fastapi

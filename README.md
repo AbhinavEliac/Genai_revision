@@ -57,11 +57,13 @@ Genai_revision/
 ├── Projects/
 │   ├── movie_data_cleaner.py           # Structured Movie Extractor using ChatPromptTemplate & PydanticOutputParser
 │   └── RAG_project/
-│       ├── main.py                     # Foundational RAG script querying concepts via GPT-4o-mini
+│       ├── main.py                     # Document summarization pipeline using PyPDFLoader and GPT-4o-mini
 │       ├── covariance_vs_correlation.txt # In-depth statistical guide (90% descriptive text, 10% math)
 │       ├── deep_learning_and_transformers.pdf # Publication-quality 5-page guide to DL, Attention, and Transformers
 │       └── document_loaders/
-│           └── test.py                 # Document loader test script using TextLoader & PyPDFLoader
+│           ├── text.py                 # Plain text loading with TextLoader (UTF-8)
+│           ├── pdf.py                  # PDF document loading via PyPDFLoader
+│           └── web_page.py             # Web page extraction via WebBaseLoader
 │
 ├── .env.example                        # Environment variables template for API keys
 ├── .gitignore                          # Git ignore rules for environments, secrets, and caches
@@ -104,9 +106,13 @@ Genai_revision/
   - Integrates **`PydanticOutputParser`** with a typed `Movie` schema (Title, Rating, Director, Release Year, Genre, Theme, Setting, Lead Actors, Summary).
   - Employs zero-temperature (`temperature=0`) inference with `gpt-4o-mini` for deterministic, hallucination-free output conforming directly to JSON / Pydantic validation.
 
-- **`RAG_project/` (Retrieval-Augmented Generation Knowledge Base)**:
-  - **`main.py`**: Entry script for testing RAG definitions and baseline generation.
-  - **`covariance_vs_correlation.txt`**: Exhaustive reference text covering population vs. sample covariance, Pearson correlation derivation, Cauchy-Schwarz inequality proof for $[-1, +1]$ bounds, geometric interpretations, covariance and correlation matrices, PCA relationships, Spearman/Kendall rank variants, and step-by-step manual calculations.
+- **`RAG_project/` (Retrieval-Augmented Generation & Document Loaders)**:
+  - **`main.py`**: PDF document summarization workflow loading pages via `PyPDFLoader` and injecting context into a `ChatPromptTemplate` for synthesis by `gpt-4o-mini`.
+  - **`document_loaders/`**:
+    - `text.py`: Robust plain text loading with `TextLoader(encoding="utf-8")`.
+    - `pdf.py`: Multi-page PDF parsing and metadata extraction with `PyPDFLoader`.
+    - `web_page.py`: Web scraping and DOM text extraction using `WebBaseLoader` with BeautifulSoup (`bs4`).
+  - **`covariance_vs_correlation.txt`**: Exhaustive reference text (~90% descriptive prose, 10% math) covering real-world case studies, analogies, Cartesian quadrant votes, Simpson's Paradox, and decision checklists.
   - **`deep_learning_and_transformers.pdf`**: Formatted 5-page PDF document covering:
     1. Foundations of Deep Learning & Perceptrons
     2. Recurrent Bottlenecks ($O(N)$ sequential delay, vanishing gradients)

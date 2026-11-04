@@ -6,4 +6,4 @@ data = TextLoader(filepath, encoding="utf-8")
 
 docs = data.load()
 
-print(docs)
+print(docs[0])
