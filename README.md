@@ -1,236 +1,211 @@
-<div align="center">
+# GenAI Revision
 
-# 🧠 GenAI Revision Repository
+A collection of small, runnable Python examples for exploring generative AI and
+the LangChain ecosystem. The repository covers chat models, Hugging Face model
+integrations, embeddings, structured extraction, document loading, and a basic
+PDF summarization example.
 
-<p align="center">
-  <strong>Comprehensive revision repository for Generative AI, Large Language Models (LLMs), LangChain, Vector Embeddings, RAG, and Real-world NLP Projects.</strong>
-</p>
+These are learning examples rather than a single packaged application. Each
+script is run independently, and some require API credentials, model downloads,
+internet access, or a local file path adjustment.
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![LangChain](https://img.shields.io/badge/LangChain-v0.3%2B-1C3C3C?logo=langchain&logoColor=white)](https://python.langchain.com/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?logo=openai&logoColor=white)](https://openai.com/)
-[![HuggingFace](https://img.shields.io/badge/HuggingFace-Models%20%26%20Endpoints-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![GitHub](https://img.shields.io/badge/GitHub-AbhinavEliac-181717?logo=github&logoColor=white)](https://github.com/AbhinavEliac/Genai_revision)
+## Contents
 
----
+- [Repository layout](#repository-layout)
+- [Requirements](#requirements)
+- [Setup](#setup)
+- [Examples](#examples)
+- [Notes and limitations](#notes-and-limitations)
 
-### 👤 Author Information
-
-| 🏷️ Detail | 📌 Information |
-| :--- | :--- |
-| **Author** | **Abhinav Gupta** |
-| **Email** | [![Email](https://img.shields.io/badge/Email-abhinavgupta15.ag%40gmail.com-D14836?logo=gmail&logoColor=white)](mailto:abhinavgupta15.ag@gmail.com) |
-| **GitHub Profile** | [![GitHub Profile](https://img.shields.io/badge/GitHub-AbhinavEliac-181717?logo=github&logoColor=white)](https://github.com/AbhinavEliac) |
-| **Repository** | [![Repo](https://img.shields.io/badge/Repo-Genai__revision-blue?logo=git&logoColor=white)](https://github.com/AbhinavEliac/Genai_revision) |
-
----
-
-</div>
-
-## 📖 Overview
-
-This repository serves as a focused, hands-on revision guide for core **Generative AI** concepts, workflows, and integrations. It covers:
-
-- **Chat Models & LLM Orchestration**: Unified model initialization using LangChain `init_chat_model`, multi-turn conversational agents with stateful message history, and persona-driven system prompts.
-- **Remote & Local Inference**: Interfacing with OpenAI cloud models, Hugging Face Serverless Endpoints (`deepseek-ai/DeepSeek-V4.1-Flash-1017`), and local Hugging Face pipelines (`TinyLlama/TinyLlama-1.1B-Chat-v1.0`).
-- **Vector Embeddings**: Generating dense vector representations using both proprietary APIs (OpenAI `text-embedding-3-small`) and open-source embedding models (`BAAI/bge-small-en-v1.5`).
-- **Applied GenAI Projects**: Practical end-to-end applications demonstrating advanced prompt engineering, Pydantic structured output parsing, and Retrieval-Augmented Generation (RAG) foundations.
-
----
-
-## 📂 Repository Structure
+## Repository layout
 
 ```text
-Genai_revision/
-│
+.
 ├── chatmodels/
-│   ├── chat.py                         # Basic LangChain chat model invocation with GPT-4o-mini
-│   ├── chatbot.py                      # Interactive "ChatBot 360" multi-persona agent with session memory
-│   ├── huggingface.py                  # HuggingFace Serverless Endpoint integration (DeepSeek)
-│   └── localmodel.py                   # On-device local inference via Hugging Face Pipeline (TinyLlama)
-│
+│   ├── chat.py                     # Basic chat completion through LangChain
+│   ├── chatbot.py                  # Interactive, multi-turn persona chatbot
+│   ├── huggingface.py              # Hosted Hugging Face chat model
+│   └── localmodel.py               # Local Hugging Face text-generation model
 ├── embeddingmodels/
-│   ├── embeddings.py                   # OpenAI dense vector embeddings (text-embedding-3-small)
-│   └── hf_embeddings.py                # Open-source Hugging Face embeddings (bge-small-en-v1.5)
-│
+│   ├── embeddings.py               # OpenAI embeddings
+│   └── hf_embeddings.py            # Hugging Face embeddings
 ├── Projects/
-│   ├── movie_data_cleaner.py           # Structured Movie Extractor using ChatPromptTemplate & PydanticOutputParser
+│   ├── movie_data_cleaner.py       # Movie information extraction to a Pydantic schema
 │   └── RAG_project/
-│       ├── main.py                     # Document summarization pipeline using PyPDFLoader and GPT-4o-mini
-│       ├── covariance_vs_correlation.txt # In-depth statistical guide (90% descriptive text, 10% math)
-│       ├── deep_learning_and_transformers.pdf # Publication-quality 5-page guide to DL, Attention, and Transformers
+│       ├── main.py                 # PDF loading and LLM summarization example
+│       ├── covariance_vs_correlation.txt
+│       ├── deep_learning_and_transformers.pdf
 │       └── document_loaders/
-│           ├── text.py                 # Plain text loading with TextLoader (UTF-8)
-│           ├── pdf.py                  # PDF document loading via PyPDFLoader
-│           └── web_page.py             # Web page extraction via WebBaseLoader
-│
-├── .env.example                        # Environment variables template for API keys
-├── .gitignore                          # Git ignore rules for environments, secrets, and caches
-├── .gitkeep                           # Placeholder keeping repository directory structure intact
-├── LICENSE                             # MIT License
-├── README.md                           # Project documentation and guide
-└── requirements.txt                    # Full list of dependencies (LangChain, PyTorch, Transformers, ReportLab, etc.)
+│           ├── pdf.py              # PDF loading and text chunking
+│           ├── text.py             # Text-file loading and chunking
+│           └── web_page.py         # Web-page loading
+├── .env.example                   # Placeholder environment variables
+├── LICENSE
+└── requirements.txt
 ```
 
----
+## Requirements
 
-## 🛠️ Modules & Features
+- Python with `venv` and `pip`
+- The packages listed in [`requirements.txt`](requirements.txt)
+- API credentials for examples that call hosted models:
+  - `OPENAI_API_KEY` for the OpenAI chat and embedding examples
+  - `HUGGINGFACEHUB_API_TOKEN` for the hosted Hugging Face example
+- Internet access for hosted APIs, web-page loading, and initial model downloads
 
-### 1. 💬 Chat Models (`chatmodels/`)
+The local Hugging Face model example downloads `TinyLlama/TinyLlama-1.1B-Chat-v1.0`
+and may require substantial disk space and memory. The requirements also include
+PyTorch and related packages.
 
-- **`chat.py`**:
-  Demonstrates quick LLM abstraction using LangChain's `init_chat_model` with temperature and max token configurations.
-- **`chatbot.py` (`ChatBot 360`)**:
-  A multi-persona CLI conversational bot. Users can select personality modes:
-  - `1`: 🎭 **Hilarious AI Agent** (Comedic, playful tone)
-  - `2`: 😢 **Sad AI Agent** (Melancholic tone)
-  - `3`: 😠 **Angry AI Agent** (Gruff, impatient tone)
-  Maintains conversational context using LangChain `SystemMessage`, `HumanMessage`, and `AIMessage`.
-- **`huggingface.py`**:
-  Cloud endpoint execution leveraging `ChatHuggingFace` and `HuggingFaceEndpoint` without requiring local GPU hardware.
-- **`localmodel.py`**:
-  Offline, on-device execution using HuggingFace's `pipeline` and `HuggingFacePipeline` with quantized or lightweight models (e.g., TinyLlama 1.1B).
+## Setup
 
-### 2. 🧬 Embedding Models (`embeddingmodels/`)
-
-- **`embeddings.py`**:
-  Uses `OpenAIEmbeddings` (`text-embedding-3-small`) with custom dimensional output (e.g., 64-dim) to generate dense vector embeddings for semantic search and retrieval.
-- **`hf_embeddings.py`**:
-  Uses local/open-source `HuggingFaceEmbeddings` with `BAAI/bge-small-en-v1.5` for cost-effective, high-accuracy semantic embeddings.
-
-### 3. 🎬 Applied GenAI Projects (`Projects/`)
-
-- **`movie_data_cleaner.py` (Structured Movie Information Extractor)**:
-  - Uses `ChatPromptTemplate.from_messages` to construct strict system instructions and dynamic prompt variables (`{paragraph}`).
-  - Integrates **`PydanticOutputParser`** with a typed `Movie` schema (Title, Rating, Director, Release Year, Genre, Theme, Setting, Lead Actors, Summary).
-  - Employs zero-temperature (`temperature=0`) inference with `gpt-4o-mini` for deterministic, hallucination-free output conforming directly to JSON / Pydantic validation.
-
-- **`RAG_project/` (Retrieval-Augmented Generation & Document Loaders)**:
-  - **`main.py`**: PDF document summarization workflow loading pages via `PyPDFLoader` and injecting context into a `ChatPromptTemplate` for synthesis by `gpt-4o-mini`.
-  - **`document_loaders/`**:
-    - `text.py`: Robust plain text loading with `TextLoader(encoding="utf-8")`.
-    - `pdf.py`: Multi-page PDF parsing and metadata extraction with `PyPDFLoader`.
-    - `web_page.py`: Web scraping and DOM text extraction using `WebBaseLoader` with BeautifulSoup (`bs4`).
-  - **`covariance_vs_correlation.txt`**: Exhaustive reference text (~90% descriptive prose, 10% math) covering real-world case studies, analogies, Cartesian quadrant votes, Simpson's Paradox, and decision checklists.
-  - **`deep_learning_and_transformers.pdf`**: Formatted 5-page PDF document covering:
-    1. Foundations of Deep Learning & Perceptrons
-    2. Recurrent Bottlenecks ($O(N)$ sequential delay, vanishing gradients)
-    3. The Transformer Revolution (*Vaswani et al., 2017*)
-    4. Mathematical Attention Mechanics ($Q, K, V$, scaling factor $\frac{1}{\sqrt{d_k}}$, Multi-Head Attention, Positional Encoding / RoPE)
-    5. Taxonomy: Encoder-Only vs. Decoder-Only vs. Encoder-Decoder
-    6. Modern Innovations: FlashAttention, GQA/MQA, KV-Caching, and Mixture of Experts (MoE)
-    7. Relevance to RAG pipelines (Bi-encoders, vector databases, Cross-encoder re-ranking).
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone the Repository
+Clone the repository and enter its directory:
 
 ```bash
 git clone https://github.com/AbhinavEliac/Genai_revision.git
 cd Genai_revision
 ```
 
-### 2. Set Up a Virtual Environment
+Create and activate a virtual environment.
 
-```bash
-# Windows
-python -m venv env
-.\env\Scripts\activate
+**Windows PowerShell**
 
-# macOS / Linux
-python3 -m venv env
-source env/bin/activate
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
 
-### 3. Install Dependencies
+**macOS / Linux**
 
 ```bash
-pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-### 4. Configure Environment Variables
+Install the dependencies:
 
-Copy the `.env.example` file to `.env` and fill in your API credentials:
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Create a local `.env` file from the template. In PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+On macOS or Linux:
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env`:
+Replace the placeholder values in `.env` with the credentials needed for the
+examples you intend to run. Never commit a populated `.env` file or paste API
+keys into source code.
 
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-GROQ_API_KEY=your_groq_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
-MISTRAL_API_KEY=your_mistral_api_key_here
-HUGGINGFACEHUB_API_TOKEN=your_huggingface_token_here
-```
+| Variable | Used by |
+| --- | --- |
+| `OPENAI_API_KEY` | `chat.py`, `embeddings.py`, `movie_data_cleaner.py`, and `RAG_project/main.py` |
+| `HUGGINGFACEHUB_API_TOKEN` | `chatmodels/huggingface.py` |
+| `GROQ_API_KEY`, `GEMINI_API_KEY`, `MISTRAL_API_KEY` | Included in the template for provider experiments; not used by the current example scripts |
 
----
+## Examples
 
-## 💻 Running the Examples
+Run commands from the repository root with the virtual environment activated.
+Each script is independent.
 
-### 🤖 ChatBot 360 (Multi-Persona Conversational Bot)
-
-```bash
-python chatmodels/chatbot.py
-```
-
-### 💬 Basic Chat Invocation
+### Chat models
 
 ```bash
 python chatmodels/chat.py
 ```
 
-### 🤗 Hugging Face Cloud Inference
+Sends a single prompt to `gpt-4o-mini` using LangChain's `init_chat_model`.
+
+```bash
+python chatmodels/chatbot.py
+```
+
+Starts a command-line conversation with one of three prompt personas: funny,
+sad, or angry. Select a mode when prompted; enter `0` in the conversation to
+exit.
 
 ```bash
 python chatmodels/huggingface.py
 ```
 
-### 🖥️ Local Model Inference
+Calls a hosted Hugging Face model through LangChain's endpoint integration. It
+requires a Hugging Face token and a model endpoint that is available to the
+account.
 
 ```bash
 python chatmodels/localmodel.py
 ```
 
-### 📐 Generating Embeddings
+Loads the TinyLlama model for local text generation. The first run may download
+the model files.
+
+### Embeddings
 
 ```bash
-# OpenAI Embeddings
 python embeddingmodels/embeddings.py
-
-# Hugging Face Embeddings
 python embeddingmodels/hf_embeddings.py
 ```
 
-### 🎬 Movie Data Cleaner (Structured Pydantic Extraction)
+Both examples embed a short list of sample questions and print the resulting
+vectors. The first uses OpenAI's `text-embedding-3-small`; the second loads
+`BAAI/bge-small-en-v1.5` through Hugging Face.
+
+### Projects
 
 ```bash
 python Projects/movie_data_cleaner.py
 ```
 
-### 📚 RAG Project
+Prompts for a movie description and asks `gpt-4o-mini` to extract fields such as
+title, rating, director, release year, genres, and a short summary. The output
+format is guided by a Pydantic schema and LangChain's output-parser instructions.
 
 ```bash
 python Projects/RAG_project/main.py
 ```
 
----
+Loads a PDF and sends its first page's text to `gpt-4o-mini` for a summary. See
+[Notes and limitations](#notes-and-limitations) before running this example.
 
-## 📬 Contact & Support
+The document-loader examples can be run separately:
 
-Created by **Abhinav Gupta** — feel free to reach out for collaborations, discussions, or questions!
+```bash
+python Projects/RAG_project/document_loaders/pdf.py
+python Projects/RAG_project/document_loaders/text.py
+python Projects/RAG_project/document_loaders/web_page.py
+```
 
-- **Email**: [abhinavgupta15.ag@gmail.com](mailto:abhinavgupta15.ag@gmail.com)
-- **GitHub**: [@AbhinavEliac](https://github.com/AbhinavEliac)
-- **Repo**: [Genai_revision](https://github.com/AbhinavEliac/Genai_revision)
+The PDF and text examples load a document, split it into chunks, and print the
+chunks. The web example fetches a page and prints its extracted text.
 
----
+## Notes and limitations
 
-<div align="center">
-  <sub>Built with ❤️ for GenAI Mastery & Continuous Learning.</sub>
-</div>
+- **This is not yet a complete RAG pipeline.** The project demonstrates document
+  loading and text splitting, but it does not create embeddings, store vectors,
+  retrieve relevant chunks, or ground an answer in retrieved context.
+- **Check the PDF path before running.** The RAG scripts use absolute Windows
+  paths in their `filepath` variables. Update the path in the script to a PDF
+  available on your machine. The repository includes
+  `Projects/RAG_project/deep_learning_and_transformers.pdf`.
+- **The summarization script processes only the first page.** Although the
+  script creates chunks, it currently passes the first page's text to the model
+  rather than summarizing all pages or using those chunks.
+- **Hosted model identifiers and availability can change.** A model or endpoint
+  may require access approval or may no longer be served under the identifier in
+  the example.
+- **The examples print output directly.** They do not include a web interface,
+  persistent conversation store, or production error handling.
+- `requirements.txt` lists dependencies without version pins. Installing it may
+  resolve newer package versions than those used when the examples were written.
+
+## License
+
+This project is distributed under the [MIT License](LICENSE).
