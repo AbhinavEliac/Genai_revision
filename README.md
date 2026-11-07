@@ -3,7 +3,8 @@
 Curious about generative AI? This repo is a hands-on playground of small,
 runnable Python examples built around GenAI and the LangChain ecosystem. You’ll
 find chat models, Hugging Face integrations, embeddings, structured extraction,
-document loading, and a starter PDF summarization demo.
+document loaders, text splitters, starter PDF summarization, and vector store
+indexing with Chroma.
 
 These are learning projects, not one big packaged app. Each script runs on its
 own, and some need API keys, a model download, an internet connection, or a
@@ -31,14 +32,17 @@ quick local file-path update. Pick a demo and get experimenting.
 │   └── hf_embeddings.py            # Hugging Face embeddings
 ├── Projects/
 │   ├── movie_data_cleaner.py       # Movie information extraction to a Pydantic schema
-│   └── RAG_project/
-│       ├── main.py                 # PDF loading and LLM summarization example
-│       ├── covariance_vs_correlation.txt
-│       ├── deep_learning_and_transformers.pdf
-│       └── document_loaders/
-│           ├── pdf.py              # PDF loading and text chunking
-│           ├── text.py             # Text-file loading and chunking
-│           └── web_page.py         # Web-page loading
+│   ├── RAG_project/
+│   │   ├── main.py                 # PDF loading, recursive chunking, and LLM summarization
+│   │   ├── covariance_vs_correlation.txt
+│   │   ├── deep-learning-material-dept-ece-ase-blr-1.pdf
+│   │   ├── deep_learning_and_transformers.pdf
+│   │   └── document_loaders/
+│   │       ├── pdf.py              # PDF loading and token chunking (TokenTextSplitter)
+│   │       ├── text.py             # Text loading and character chunking (CharacterTextSplitter)
+│   │       └── web_page.py         # Web-page loading (WebBaseLoader)
+│   └── vectorstores/
+│       └── vectorstore.py          # Vector store indexing, Chroma persistence, similarity search, and retrieval
 ├── .env.example                   # Placeholder environment variables
 ├── LICENSE
 └── requirements.txt
@@ -49,7 +53,7 @@ quick local file-path update. Pick a demo and get experimenting.
 - Python with `venv` and `pip`
 - The packages listed in [`requirements.txt`](requirements.txt)
 - API credentials for examples that call hosted models:
-  - `OPENAI_API_KEY` for the OpenAI chat and embedding examples
+  - `OPENAI_API_KEY` for the OpenAI chat, embedding, and vector store examples
   - `HUGGINGFACEHUB_API_TOKEN` for the hosted Hugging Face example
 - Internet access for hosted APIs, web-page loading, and initial model downloads
 
@@ -107,7 +111,7 @@ paste API keys into source code.
 
 | Variable | Used by |
 | --- | --- |
-| `OPENAI_API_KEY` | `chat.py`, `embeddings.py`, `movie_data_cleaner.py`, and `RAG_project/main.py` |
+| `OPENAI_API_KEY` | `chat.py`, `embeddings.py`, `movie_data_cleaner.py`, `RAG_project/main.py`, and `vectorstores/vectorstore.py` |
 | `HUGGINGFACEHUB_API_TOKEN` | `chatmodels/huggingface.py` |
 | `GROQ_API_KEY`, `GEMINI_API_KEY`, `MISTRAL_API_KEY` | Included in the template for provider experiments; not used by the current example scripts |
 
@@ -170,10 +174,11 @@ and LangChain output-parser instructions keep the result structured.
 python Projects/RAG_project/main.py
 ```
 
-Loads a PDF and sends its first page to `gpt-4o-mini` for a summary. Check
+Loads a PDF, chunks it using `RecursiveCharacterTextSplitter`, and sends the prompt
+to `gpt-4o-mini` for a bullet-point summary. Check
 [Notes and limitations](#notes-and-limitations) before running this one.
 
-The document-loader examples can be run separately:
+The document-loader and text-splitter examples can be run separately:
 
 ```bash
 python Projects/RAG_project/document_loaders/pdf.py
@@ -181,21 +186,39 @@ python Projects/RAG_project/document_loaders/text.py
 python Projects/RAG_project/document_loaders/web_page.py
 ```
 
-The PDF and text demos load a document, split it into chunks, and print them.
-The web demo fetches a page and prints its extracted text.
+- `pdf.py`: Loads a PDF using `PyPDFLoader` and splits it into chunks with `TokenTextSplitter` (`chunk_size=100`, `chunk_overlap=10`).
+- `text.py`: Loads a UTF-8 text file using `TextLoader` and splits it into chunks with `CharacterTextSplitter` (`chunk_size=100`, `chunk_overlap=10`).
+- `web_page.py`: Fetches a web page using `WebBaseLoader` and prints its extracted text.
+
+### Vector stores & retrieval
+
+```bash
+python Projects/vectorstores/vectorstore.py
+```
+
+Demonstrates persistent vector indexing and similarity retrieval using Chroma:
+1. **Document Loading**: Loads a PDF via `PyPDFLoader`.
+2. **Text Chunking**: Splits content into manageable chunks using `RecursiveCharacterTextSplitter` (`chunk_size=1000`, `chunk_overlap=100`).
+3. **Embeddings & Persistence**: Embeds chunks using OpenAI's `OpenAIEmbeddings` and persists the vector index to a local directory (`chroma-db/`).
+4. **Similarity Search**: Performs nearest-neighbor similarity search (`vectorstore.similarity_search`).
+5. **Retriever Interface**: Converts the store into a LangChain retriever (`vectorstore.as_retriever()`) and fetches relevant chunks via `retriever.invoke()`.
 
 ## Notes and limitations
 
-- **This isn’t a full RAG pipeline yet.** The project demonstrates document
-  loading and text splitting, but it does not create embeddings, store vectors,
-  retrieve relevant chunks, or ground an answer in retrieved context.
-- **Check the PDF path before running.** The RAG scripts use absolute Windows
-  paths in their `filepath` variables. Update the path in the script to a PDF
-  available on your machine. The repository includes
-  `Projects/RAG_project/deep_learning_and_transformers.pdf`.
-- **The summarization script only processes the first page.** Although the
-  script creates chunks, it currently passes the first page's text to the model
-  rather than summarizing all pages or using those chunks.
+- **Building towards a complete RAG pipeline.** Document loading, text
+  chunking, embedding generation, Chroma vector storage, and similarity retrieval
+  are now set up. The remaining step for an end-to-end question-answering RAG system
+  is passing the retrieved chunks dynamically into a generation prompt chain.
+- **Check file paths before running.** The scripts in `RAG_project` and
+  `vectorstores` use absolute Windows paths in their `filepath` variables. Update
+  the paths in the scripts to match your local repository clone if running from a
+  different directory or machine.
+- **Vector store persistence.** `vectorstore.py` writes to a local `chroma-db/`
+  directory (ignored by Git). Delete or re-initialize this directory if you switch
+  embedding models or change input documents.
+- **The summarization script passes the first page.** Although `main.py`
+  generates recursive character chunks, it currently passes the first page's text
+  to the model for summarization.
 - **Hosted model IDs and availability can change.** A model or endpoint
   may require access approval or may no longer be served under the identifier in
   the example.

@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 
 from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import TokenTextSplitter
 
 load_dotenv()
 
@@ -10,4 +11,18 @@ data = PyPDFLoader(filepath)
 
 docs = data.load()
 
-print(len(docs))
+splitter = TokenTextSplitter(
+    chunk_size = 100,
+    chunk_overlap = 10
+)
+
+chunks = splitter.split_documents(docs)
+
+for chunk in chunks:
+
+    print(chunk.page_content)
+    print()
+    print()
+    print()
+
+print(len(chunks))

@@ -79,6 +79,8 @@ cover/
 *.onnx
 faiss_index/
 chromadb_data/
+chroma-db/
+*.sqlite3
 *.index
 
 # ==========================================
@@ -86,6 +88,7 @@ chromadb_data/
 # ==========================================
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 *~
