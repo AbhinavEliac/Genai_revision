@@ -80,6 +80,8 @@ cover/
 faiss_index/
 chromadb_data/
 chroma-db/
+rag-project-chroma-db/
+*-chroma-db/
 *.sqlite3
 *.index
 
